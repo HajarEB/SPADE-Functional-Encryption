@@ -1,96 +1,105 @@
-# Ace of SPADE: Post-Quantum Functional Encryption
 
-Research-based implementation of **Ace of SPADE (AoS)**, a lattice-based Homomorphic Functional Encryption (HFE) scheme enabling selective and partial decryption of encrypted data.
+# Ace of SPADE — Functional Encryption
 
-Developed as part of the *Security Protocols* course at Tampere University, this project implements and evaluates the cryptographic scheme presented in the research paper *Ace of SPADE: Selective and PArtial DEcryption with Post-Quantum Security*.
+A Python research implementation of **Ace of SPADE (AoS)**, a lattice-based functional encryption scheme supporting selective decryption, ciphertext updates, and multi-user access control.
+
+Based on the research paper *Ace of SPADE: Selective and PArtial DEcryption with Post-Quantum Security*.
 
 ## Overview
 
-Traditional encryption protects sensitive data but generally requires full decryption before it can be analyzed.
+This project reproduces the core cryptographic operations of Ace of SPADE, a functional encryption construction designed to enable privacy-preserving analysis of encrypted data.
 
-Functional Encryption (FE) addresses this limitation by allowing authorized users to learn specific information from encrypted data without revealing the complete underlying plaintext.
+Unlike conventional encryption, functional encryption allows authorized users to obtain specific information about encrypted data without revealing the complete plaintext.
 
-Ace of SPADE extends this concept by supporting:
+The implementation supports selective equality queries over encrypted vectors, enabling users to identify matching values while keeping other values encrypted.
 
-- Selective and partial decryption
-- Privacy-preserving equality checks
-- Lattice-based cryptographic operations
-- Ciphertext updates
-- Multi-user access control
+## Key Features
 
-The project focuses on implementing these mechanisms and evaluating their computational performance.
+- **Functional Encryption:** Implemented setup, encryption, functional key derivation, and selective decryption.
+- **Lattice-Based Cryptography:** Implemented polynomial arithmetic and randomized sampling operations underlying the scheme.
+- **Ciphertext Updates:** Implemented update-token generation and ciphertext relabeling without decrypting the underlying data.
+- **Multi-User Support:** Extended the implementation to handle multiple data owners and users with individual registration requests and functional decryption keys.
+- **Secure Communication:** Integrated RSA-OAEP, AES-GCM, and digital signatures for protected and authenticated exchanges.
+- **Access Control:** Implemented registration-based authorization checks and user revocation.
+- **Performance Evaluation:** Measured execution time and memory consumption across multiple cryptographic parameter configurations.
 
-## Features
+## System Workflow
 
-### Functional Encryption
-- Implementation of the core AoS cryptographic operations.
-- Encryption and controlled decryption of sensitive data.
-- Selective information disclosure through functional decryption keys.
-
-### Post-Quantum Cryptography
-- Implementation based on lattice-based cryptographic techniques.
-- Exploration of cryptographic constructions designed for resistance to quantum attacks.
-
-### Multi-User Support
-- Extended the implementation to support multiple users.
-- Implemented user-specific access to encrypted information.
-- Enabled selective information disclosure in a multi-user setting.
-
-### Performance Evaluation
-- Benchmarked the main cryptographic operations.
-- Evaluated execution time and memory consumption.
-- Conducted experiments with different parameter configurations.
-- Compared experimental observations with the original research paper.
-
-## Cryptographic Operations
-
-The implementation covers the following operations:
-
-| Operation | Description |
-|-----------|-------------|
-| Setup | Initialize cryptographic parameters and keys |
-| Encryption | Encrypt input data |
-| Key Derivation | Generate functional decryption keys |
-| Decryption | Recover authorized information |
-| Token Generation | Generate ciphertext update tokens |
-| Update | Update encrypted data |
+1. The Key Center generates functional encryption keys.
+2. Data owners register and encrypt their datasets.
+3. Users register with a selection of data owners and target values.
+4. The Key Center derives the corresponding functional decryption keys.
+5. Authorized users perform selective equality checks on encrypted data.
+6. Ciphertext labels can be updated using generated update tokens.
+7. User access is revoked at the end of the simulated session.
 
 ## Technologies
 
+- Python
+- NumPy
+- Cryptography
+- PyCryptodome
+- psutil
 - Functional Encryption
-- Homomorphic Encryption
 - Lattice-Based Cryptography
-- Post-Quantum Cryptography
-- Performance Benchmarking
 
-## Evaluation
+## Performance Evaluation
 
-The implementation follows the experimental methodology described in the original paper.
+The implementation includes four experimental configurations based on the original research paper.
 
-Four parameter configurations are considered:
+| Parameter Set | Vector Size | Ring Degree | log2(q) |
+|---------------|-------------|-------------|---------|
+| Small | 100 | 4096 | 39 |
+| Medium | 200 | 8192 | 42 |
+| Large | 500 | 16384 | 43 |
+| Extra Large | 1000 | 32768 | 47 |
 
-| Configuration | Input Vector Size |
-|---------------|-------------------|
-| Small | 100 |
-| Medium | 200 |
-| Large | 500 |
-| Extra Large | 1000 |
+Execution time and memory consumption are measured for:
 
-The evaluation focuses on:
+- Setup
+- Encryption
+- Key derivation
+- Decryption
+- Token generation
+- Ciphertext updates
 
-- Execution time of cryptographic operations
-- Memory consumption
-- Scalability with increasing input sizes
-- Comparison with the reference implementation
+## Installation
 
-## Research Reference
+Install the required Python dependencies:
 
-Hadjeres, M., Nuoskala, C., Abdinasibfar, H., & Michalas, A. (2025).
+```bash
+pip install numpy cryptography pycryptodome psutil
+```
+
+## Usage
+
+Run the interactive application:
+
+```bash
+python sec_prot.py
+```
+
+The program prompts the user to select a parameter configuration, register users, specify authorized data owners and target values, and perform selective decryption.
+
+Generated datasets and decryption results are saved in dedicated output directories.
+
+## Project Structure
+
+```text
+.
+├── sec_prot.py        # Cryptographic scheme and multi-user workflow
+├── utils.py           # Authentication and encryption utilities
+└── README.md          # Project documentation
+```
+
+## Reference
+
+Hadjeres, M., Nuoskala, C., Abdinasibfar, H., and Michalas, A. (2025).
 
 *Ace of SPADE: Selective and PArtial DEcryption with Post-Quantum Security.*
 
-## Academic Context
+## Disclaimer
 
-Developed at **Tampere University** as an individual programming project for the course *Security Protocols (COMP.SEC.220)*.
+This project is an academic research implementation developed for the Security Protocols course at Tampere University.
 
-The implementation is an academic research reproduction and has not undergone an independent security audit.
+It is intended for educational and experimental purposes and has not undergone an independent cryptographic security audit.
