@@ -1,5 +1,3 @@
-# SPADE-Functional-Encryption
-
 # Ace of SPADE: Post-Quantum Functional Encryption
 
 Research-based implementation of **Ace of SPADE (AoS)**, a lattice-based Homomorphic Functional Encryption (HFE) scheme enabling selective and partial decryption of encrypted data.
