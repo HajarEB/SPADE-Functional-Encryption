@@ -31,7 +31,7 @@ The project focuses on implementing these mechanisms and evaluating their comput
 - Implementation based on lattice-based cryptographic techniques.
 - Exploration of cryptographic constructions designed for resistance to quantum attacks.
 
-### Multi-User Support (Bonus)
+### Multi-User Support
 - Extended the implementation to support multiple users.
 - Implemented user-specific access to encrypted information.
 - Enabled selective information disclosure in a multi-user setting.
