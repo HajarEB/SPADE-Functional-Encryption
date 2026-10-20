@@ -73,19 +73,22 @@ Experiments were conducted using four configurations from the reference paper.
 
 ### Selective Decryption
 
-The implementation performs equality checks on encrypted data, revealing only the positions where a specified value matches.
+The following screenshots highlight the positions of target values in the original plaintext dataset.
 
-The following example demonstrates selective decryption for target values `v = 6` and `v = 0`.
+**Target value: 6**
 
-![Selective Decryption](screenshots/selective_decryption.png)
+![Plaintext Matches - Value 6](screenshots/plaintext_matches_value_6.png)
 
-### Ciphertext Update
+**Target value: 0**
 
-The implementation supports ciphertext-label updates using generated update tokens.
+![Plaintext Matches - Value 0](screenshots/plaintext_matches_value_0.png)
 
-The experiment confirms that selective decryption produces the same matching results before and after updating the ciphertext label.
+### Ciphertext Update Verification
 
-![Ciphertext Update](screenshots/ciphertext_update.png)
+The implementation performs selective decryption before and after updating the ciphertext label, preserving the expected matching results.
+
+![Selective Decryption and Ciphertext Update](screenshots/selective_decryption_ciphertext_update.png)
+
 
 ### Observations
 
