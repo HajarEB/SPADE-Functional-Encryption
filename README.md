@@ -1,71 +1,83 @@
 
-# Ace of SPADE — Functional Encryption
+# Ace of SPADE — Functional Encryption Implementation
 
-A Python research implementation of **Ace of SPADE (AoS)**, a lattice-based functional encryption scheme supporting selective decryption, ciphertext updates, and multi-user access control.
+A Python implementation of the **Ace of SPADE (AoS)** functional encryption scheme, developed as a research reproduction project for the Security Protocols course at Tampere University.
 
-Based on the research paper *Ace of SPADE: Selective and PArtial DEcryption with Post-Quantum Security*.
+The project implements lattice-based functional encryption algorithms, selective decryption, ciphertext updates, and a multi-user workflow.
 
 ## Overview
 
-This project reproduces the core cryptographic operations of Ace of SPADE, a functional encryption construction designed to enable privacy-preserving analysis of encrypted data.
+Ace of SPADE enables authorized users to perform selective equality checks on encrypted data without revealing the underlying plaintext values.
 
-Unlike conventional encryption, functional encryption allows authorized users to obtain specific information about encrypted data without revealing the complete plaintext.
+This implementation reproduces the scheme's main cryptographic operations using Python and NumPy, and extends them with a simulated multi-user environment involving a Key Center (KC), data owners, and users.
 
-The implementation supports selective equality queries over encrypted vectors, enabling users to identify matching values while keeping other values encrypted.
+## Implemented Features
 
-## Key Features
+### Core Cryptographic Algorithms
+- **Setup:** Generates functional encryption public and secret keys.
+- **Encryption:** Encrypts data vectors under data-owner-specific labels.
+- **Key Derivation:** Generates functional decryption keys for requested values.
+- **Selective Decryption:** Identifies positions where encrypted values match a specified target.
+- **Token Generation:** Generates tokens for updating ciphertext labels.
+- **Ciphertext Update:** Updates encrypted data to a new label without decrypting the original plaintext.
 
-- **Functional Encryption:** Implemented setup, encryption, functional key derivation, and selective decryption.
-- **Lattice-Based Cryptography:** Implemented polynomial arithmetic and randomized sampling operations underlying the scheme.
-- **Ciphertext Updates:** Implemented update-token generation and ciphertext relabeling without decrypting the underlying data.
-- **Multi-User Support:** Extended the implementation to handle multiple data owners and users with individual registration requests and functional decryption keys.
-- **Secure Communication:** Integrated RSA-OAEP, AES-GCM, and digital signatures for protected and authenticated exchanges.
-- **Access Control:** Implemented registration-based authorization checks and user revocation.
-- **Performance Evaluation:** Measured execution time and memory consumption across multiple cryptographic parameter configurations.
+### Multi-User Workflow
+- Registration of multiple data owners and users.
+- User-specific requests for selected data owners and target values.
+- Generation and distribution of functional decryption keys.
+- Simulated data access between users and the Key Center.
+- Tracking of user registration and revocation status.
 
-## System Workflow
+### Communication Security
+- RSA-OAEP for asymmetric encryption.
+- AES-GCM for authenticated encryption.
+- RSA digital signatures for message authentication and integrity verification.
+- Timestamp validation for signed messages.
 
-1. The Key Center generates functional encryption keys.
-2. Data owners register and encrypt their datasets.
-3. Users register with a selection of data owners and target values.
-4. The Key Center derives the corresponding functional decryption keys.
-5. Authorized users perform selective equality checks on encrypted data.
-6. Ciphertext labels can be updated using generated update tokens.
-7. User access is revoked at the end of the simulated session.
+### Performance Benchmarking
+- Execution-time measurements for cryptographic operations.
+- Memory-usage measurements using psutil.
+- Experiments with four parameter configurations.
 
 ## Technologies
 
-- Python
-- NumPy
-- Cryptography
-- PyCryptodome
-- psutil
-- Functional Encryption
-- Lattice-Based Cryptography
+- **Language:** Python
+- **Libraries:** NumPy, cryptography, PyCryptodome, psutil
+- **Concepts:** Functional Encryption, Lattice-Based Cryptography, Selective Decryption, Cryptographic Protocols
 
-## Performance Evaluation
+## Implementation Details
 
-The implementation includes four experimental configurations based on the original research paper.
+The implementation uses:
 
-| Parameter Set | Vector Size | Ring Degree | log2(q) |
-|---------------|-------------|-------------|---------|
-| Small | 100 | 4096 | 39 |
-| Medium | 200 | 8192 | 42 |
-| Large | 500 | 16384 | 43 |
-| Extra Large | 1000 | 32768 | 47 |
+- Negacyclic polynomial multiplication
+- Ternary polynomial sampling
+- Gaussian noise sampling
+- Modular polynomial arithmetic
+- Functional key generation and equality-based decryption
 
-Execution time and memory consumption are measured for:
+The cryptographic arithmetic is implemented with NumPy rather than a specialized lattice-cryptography library.
 
-- Setup
-- Encryption
-- Key derivation
-- Decryption
-- Token generation
-- Ciphertext updates
+## Experimental Evaluation
+
+Experiments were conducted using four configurations from the reference paper.
+
+| Configuration | Vector Size | Ring Degree |
+|---------------|-------------|-------------|
+| Small | 100 | 4096 |
+| Medium | 200 | 8192 |
+| Large | 500 | 16384 |
+| Extra Large | 1000 | 32768 |
+
+### Observations
+
+- Selective decryption was tested against expected plaintext equality matches.
+- Ciphertext-label updates preserved the expected matching results in the reported experiments.
+- Execution time and memory requirements generally increased with larger parameter configurations.
+- Performance was compared with the reference paper, which used an optimized Go implementation.
 
 ## Installation
 
-Install the required Python dependencies:
+Requires Python 3 and the following dependencies:
 
 ```bash
 pip install numpy cryptography pycryptodome psutil
@@ -73,24 +85,32 @@ pip install numpy cryptography pycryptodome psutil
 
 ## Usage
 
-Run the interactive application:
+Run the application:
 
 ```bash
 python sec_prot.py
 ```
 
-The program prompts the user to select a parameter configuration, register users, specify authorized data owners and target values, and perform selective decryption.
+The interactive program allows users to:
 
-Generated datasets and decryption results are saved in dedicated output directories.
+1. Select a cryptographic parameter configuration.
+2. Register users and specify data owners.
+3. Choose target values for selective decryption.
+4. Access encrypted data through the simulated Key Center.
+5. Observe decryption results before and after ciphertext-label updates.
 
-## Project Structure
+Generated files are organized into:
 
-```text
-.
-├── sec_prot.py        # Cryptographic scheme and multi-user workflow
-├── utils.py           # Authentication and encryption utilities
-└── README.md          # Project documentation
-```
+- `DataOwner/` — generated plaintext datasets
+- `KC/` — encrypted data stored by the Key Center
+- `Decryption_Results/` — selective decryption outputs
+
+## Project Files
+
+| File | Description |
+|------|-------------|
+| `sec_prot.py` | Functional encryption algorithms, multi-user workflow, and benchmarking |
+| `utils.py` | AES/RSA operations, digital signatures, and message utilities |
 
 ## Reference
 
@@ -100,6 +120,4 @@ Hadjeres, M., Nuoskala, C., Abdinasibfar, H., and Michalas, A. (2025).
 
 ## Disclaimer
 
-This project is an academic research implementation developed for the Security Protocols course at Tampere University.
-
-It is intended for educational and experimental purposes and has not undergone an independent cryptographic security audit.
+This is an educational research implementation, not a production-ready cryptographic library. It has not been independently audited or formally verified.
