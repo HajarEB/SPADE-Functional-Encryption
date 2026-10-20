@@ -68,6 +68,25 @@ Experiments were conducted using four configurations from the reference paper.
 | Large | 500 | 16384 |
 | Extra Large | 1000 | 32768 |
 
+
+## Demonstration
+
+### Selective Decryption
+
+The implementation performs equality checks on encrypted data, revealing only the positions where a specified value matches.
+
+The following example demonstrates selective decryption for target values `v = 6` and `v = 0`.
+
+![Selective Decryption](screenshots/selective_decryption.png)
+
+### Ciphertext Update
+
+The implementation supports ciphertext-label updates using generated update tokens.
+
+The experiment confirms that selective decryption produces the same matching results before and after updating the ciphertext label.
+
+![Ciphertext Update](screenshots/ciphertext_update.png)
+
 ### Observations
 
 - Selective decryption was tested against expected plaintext equality matches.
