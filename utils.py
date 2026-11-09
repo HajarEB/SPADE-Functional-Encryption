@@ -6,7 +6,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
 from Crypto.Cipher import AES
 import numpy as np
-
+import pickle
 
 #AES encryption
 def aes_encrypt(key, data):
@@ -120,7 +120,7 @@ def verify(m, pk):
 
     t, value, signature = m
 
-    message = np.append(t, value)
+    message = pickle.dumps((t, value), protocol=4)
 
     if euf_cma_verify(pk, signature, message) and is_ts_valid(t):
         return True
@@ -131,7 +131,7 @@ def verify(m, pk):
 def generate_message(sk, value):
     t = generate_timestamp()
 
-    message = np.append(t, value)
+    message = pickle.dumps((t, value), protocol=4)
 
     signature = euf_cma_sign(sk, message)
 
